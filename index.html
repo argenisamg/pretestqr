@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiwynn Pre-Test Evidence App</title>    
+    <link rel="icon" href="assets/img/wiwynn-icon.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/style-pretest.css">    
+    <link rel="stylesheet" href="assets/css/tabs.css">    
+    <!-- DataTable Styles -->
+    <link href="assets/css/DataTables/datatables.min.css" type="text/css" rel="stylesheet">
+    <!-- <link href="assets/css/data-table.css" type="text/css" rel="stylesheet">    -->
+    <link rel="stylesheet" href="assets/css/modal.css"> 
+</head>
+<style>
+    .info {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    #show {
+        width: auto;
+    }
+    #scannresult {
+        width: 100%;
+        max-width: 40rem;
+    }
+    </style>
+<body>    
+    <header>          
+        <!-- <div class="contenedor-navegacion"> -->
+            <div class="nav-principal container-principal-amg">
+                <nav class="nav-navegacion">
+                    <img src="assets/img/wiwynnsmallwhite.png" alt="Wiwynn" class="img">
+                    <p class="a-nav">PRE-TEST EVIDENCE APP</p>                      
+                </nav>                                         
+            </div>
+        <!-- </div>  -->
+    </header>                                              
+    <div class="container-principal-amg">
+        <div class="container-amg">   
+            <div class="tabs">
+                <button class="tablink" onclick="openPage('Page1')">Evidence Register</button>
+                <button class="tablink" onclick="openPage('Page2')">History</button>        
+            </div>
+        
+            <div id="Page1" class="tabcontent" page="1">
+                <fieldset id="theFieldset">
+                    <legend class="legend-indicator">REPORT FORM</legend>                                                            
+                        <form id="formulario" class="evidenceform">
+                            <div class="grid-container">
+                                <div>
+                                    <p>Employee:</p>                                
+                                    <input type="text" name="employee" placeholder="Employee SN..." required>                                    
+                                    <p>Shift: (1st, 2nd, 3rd, 4th, 5th)</p>                                
+                                    <select name="shift" id="shift">
+                                        <option value="-">--</option>
+                                        <option value="1st">1st</option>
+                                        <option value="2nd">2nd</option>
+                                        <option value="3rd">3rd</option>
+                                        <option value="4th">4th</option>
+                                        <option value="5th">5th</option>
+                                    </select>
+                                    <!-- <p for="inputText">Damage description:</p> -->
+                                </div>                                
+                                <!-- style="display: none;" -->
+                                <div id="show" >                                        
+                                    <!-- <h3 id="result" name="result"></h3> -->
+                                    <p>Scan result:</p>
+                                    <input type="text" name="scannresult" id="scannresult" placeholder="Scan result..." value="" required>
+                                    <div>
+                                        <p>Damage description:</p>
+                                        <textarea name="inputText" id="inputText" cols="51" rows="5" required></textarea>                                    
+                                    </div>
+                                </div>
+                                <input type="file" id="fileevidence" name="fileevidence" class="input-file">
+                                <div>
+                                    <input type="button" class="boton" id="btnscanner" name="btnscanner" value="Start Scan">                                                                
+                                    <input type="submit" id="btnEvidence" name="btnEvidence" value="Send Evidence">
+                                </div>                                                                
+                            </div>                       
+                        </form>                                                             
+                        <div id="reader" class="camera"></div>                                            
+                </fieldset> 
+            </div>
+        
+            <div id="Page2" page="2" class="tabcontent">  
+                <div class="tablecontainer-amg">
+                    <table class="table" id="tableContent">
+                        <thead>                                                                                                                                                                               
+                            <th class="th-over">#</th>
+                            <th class="th-over">SN</th>
+                            <th>REVISION DATE</th>
+                            <th>EVIDENCE</th>
+                            <th class="th-over">EMPLOYEE</th>                                                          
+                            <th>SHIFT</th>                                                          
+                            <th class="th-over">DESCRIPTION</th>                                                         		
+                        </thead>        
+                        <!-- <tbody></tbody>-->
+                    </table>                                                                                                                                                                       
+                </div>              
+            </div>           
+            
+            <!-- Modal result tables -->
+            <div id="ventanaModal" class="modal">
+                <div class="contenido-modal">
+                    <span class="close" id="close">&times;</span>
+                    <div class="modal-header">
+                        <h2 id="texth2"></h2>
+                        <hr class="horizontal-line">                            
+                    </div>
+                    <div class="tablesAreaResult" id="resultsTables">                        
+                        <div id="imagemodal"></div>      
+                        <p id="descriptiontext"></p>
+                    </div>
+                    <hr class="horizontal-line">
+                    <div class="group-inter-button">                        
+                        <input type="button" name="closemodal" id="closemodal" class="closemodal" value="Close">
+                    </div>
+                </div>
+            </div>           
+            <!-- End modal Result tables  --> 
+
+
+        </div> <!--container-->
+    </div> <!--container-principal-->  
+      
+    <footer>        
+        <div>            
+            <img src="assets/img/logo30.png" alt="Wiwynn Mx">
+            <p>© 2023 Wiwynn, TE Department, Inc. All Rights Reserved | Developed by Argenis Munoz</p>            
+        </div>
+    </footer>   
+            
+    <!-- DataTables -->
+    <script type="text/javascript" src="assets/js/DataTables/jQuery-3.5.1.js"></script>
+    <script type="text/javascript" src="assets/js/DataTables/jquery.dataTables.min.js"></script>
+
+    <script src="assets/js/qrScript.js"></script>
+    <script src="assets/js/pagination.js"></script>
+    <script type="text/javascript">        
+        let btnscanner = document.getElementById('btnscanner');
+        const html5Qrcode = new Html5Qrcode('reader');
+        const qrCodeSuccessCallback = (decodedText, decodedResult)=>{
+            if(decodedText){
+                document.getElementById('show').style.display = 'block';
+                document.getElementById('scannresult').value = decodedText;
+                html5Qrcode.stop();
+                btnscanner.value = "Start Scan"
+            }
+        }
+        // const config = {fps:30, qrbox:{width:450, height:100}};
+        const config = {fps: 60, qrbox: { width: 400, height: 150 }};
+        const buttonClick = () => {
+            btnscanner.addEventListener('click', () => {
+                if (btnscanner.value === "Start Scan") {                    
+                    html5Qrcode.start({facingMode:"environment"}, config, qrCodeSuccessCallback);   
+                    btnscanner.value = "Stop scan"                 
+                } else {
+                    html5Qrcode.stop();
+                    btnscanner.value = "Start Scan"
+                }
+            });        
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            buttonClick();
+        });
+        </script>
+        <script src="assets/js/registerevidence.js"></script>
+    
+    </body>
+</html>

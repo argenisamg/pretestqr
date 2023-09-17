@@ -1,0 +1,49 @@
+.tabs {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    }
+
+    .tablink {
+    background-color: #f1f1f1;
+    float: left;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+    }
+
+    .tablink:hover {
+    background-color: #ddd;
+    }
+
+    .tabcontent {
+    display: none;
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    }
+
+    .pagination {
+    text-align: center;
+    margin-top: 20px;
+    }
+
+    .pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    }
+
+    .pagination a:hover {
+    background-color: #ddd;
+    }
+
+    .active {
+    background-color: #ccc;
+    }
+
+    .show {
+    display: block;
+    }
